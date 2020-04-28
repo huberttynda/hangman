@@ -1,0 +1,71 @@
+import random
+print("H A N G M A N")
+start = input('Type "play" to play the game, "exit" to quit:')
+start_up = ['play', 'exit']
+word_list = ['python', 'java', 'kotlin', 'javascript']
+game_word = random.choice(word_list)
+guesses = ''
+bad_guesses = ''
+all_guesses = guesses + bad_guesses
+single_letter = list('abcdefghijklmnoprstquwvxyz')
+not_ascii_a = list('ABCDEFGHIJKLMNOPRSTUQWVXYZ1234567890`~!@#$%^&*()-=[];,./\_+{}:"<>?|')
+not_ascii_b = list("'")
+not_ascii = not_ascii_a + not_ascii_b
+result = '-' * len(game_word)
+print()
+turns = 8
+for start in start_up:
+    if start is start_up[0]:
+        while turns > 1:
+            print()
+            print(result)
+            letter = input("Input a letter: ")
+            if letter in not_ascii:
+                print('It is not an ASCII lowercase letter')
+            elif letter not in single_letter:
+                print('You should print a single letter')
+            elif set(guesses) == set(game_word):
+                print("You survived!")
+                turns = -1
+            elif letter in all_guesses:
+                print("You already typed this letter")
+            elif letter in game_word and letter not in guesses:
+                guesses = guesses + letter
+                all_guesses = guesses + bad_guesses
+                for i in range(len(game_word)):
+                    for i in range(len(game_word)):
+                        if game_word[i] in guesses:
+                            result = result[:i] + game_word[i] + result[i + 1:]
+                else:
+                    print('No such letter in the word')
+                    bad_guesses = bad_guesses + letter
+                    all_guesses = guesses + bad_guesses
+                    turns -= 1
+                while turns == 1:
+                    print()
+                    print(result)
+                    letter = input("Input a letter: ")
+                    if letter in not_ascii:
+                        print('It is not an ASCII lowercase letter')
+                    elif letter not in single_letter:
+                        print('You should print a single letter')
+                    elif letter in game_word and letter not in guesses and set(guesses) == set(game_word):
+                        guesses = guesses + letter
+                        all_guesses = guesses + bad_guesses
+                        for i in range(len(game_word)):
+                            if game_word[i] in guesses:
+                                result = result[:i] + game_word[i] + result[i + 1:]
+                        print(result)
+                        print("You survived!")
+                        continue
+                    elif letter in all_guesses:
+                        print("You already typed this letter")
+                    else:
+                        print('No such letter in the word')
+                        print("You are hanged!")
+                        bad_guesses = bad_guesses + letter
+                        all_guesses = guesses + bad_guesses
+                        turns -= 1
+                        continue
+    elif start is start_up[1]:
+        break
